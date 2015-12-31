@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.media.AudioManager;
+import android.media.SoundPool;
 
 import com.dudley.towerdefense.framework.Audio;
 import com.dudley.towerdefense.framework.Music;
