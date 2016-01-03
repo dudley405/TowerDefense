@@ -88,7 +88,6 @@ public class GameScreen extends Screen {
                 } else if (event.x > 640) {
                     // Move right.
                 }
-
             }
 
             if (event.type == TouchEvent.TOUCH_UP) {
@@ -99,8 +98,6 @@ public class GameScreen extends Screen {
                     // Stop moving right. }
                 }
             }
-
-
         }
 
         // 2. Check miscellaneous events like death:
@@ -177,13 +174,16 @@ public class GameScreen extends Screen {
         Graphics g = game.getGraphics();
 
         g.drawARGB(155, 0, 0, 0);
-        g.drawString("Tap each side of the screen to move in that direction.",
+        g.drawString("Touch to Begin",
                 640, 300, paint);
+
 
     }
 
     private void drawRunningUI() {
         Graphics g = game.getGraphics();
+        g.clearScreen(155);
+        g.drawImage(Assets.map_1_1, 0,0);
 
     }
 

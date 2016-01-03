@@ -107,10 +107,7 @@ public class AndroidGraphics implements Graphics {
     @Override
     public void drawString(String text, int x, int y, Paint paint){
         canvas.drawText(text, x, y, paint);
-
-
     }
-
 
     public void drawImage(Image Image, int x, int y, int srcX, int srcY,
                           int srcWidth, int srcHeight) {
@@ -118,7 +115,6 @@ public class AndroidGraphics implements Graphics {
         srcRect.top = srcY;
         srcRect.right = srcX + srcWidth;
         srcRect.bottom = srcY + srcHeight;
-
 
         dstRect.left = x;
         dstRect.top = y;
@@ -142,13 +138,10 @@ public class AndroidGraphics implements Graphics {
         srcRect.right = srcX + srcWidth;
         srcRect.bottom = srcY + srcHeight;
 
-
         dstRect.left = x;
         dstRect.top = y;
         dstRect.right = x + width;
         dstRect.bottom = y + height;
-
-
 
         canvas.drawBitmap(((AndroidImage) Image).bitmap, srcRect, dstRect, null);
 

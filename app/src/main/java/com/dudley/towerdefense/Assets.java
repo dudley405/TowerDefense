@@ -10,4 +10,6 @@ public class Assets {
 
     public static Image menu;
     public static Sound click;
+
+    public static Image map_1_1;
 }

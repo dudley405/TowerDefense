@@ -10,6 +10,7 @@ import android.os.PowerManager.WakeLock;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.dudley.towerdefense.R;
 import com.dudley.towerdefense.framework.Audio;
 import com.dudley.towerdefense.framework.FileIO;
 import com.dudley.towerdefense.framework.Game;

@@ -1,5 +1,8 @@
 package com.dudley.towerdefense;
 
+import android.graphics.Color;
+import android.graphics.Paint;
+
 import com.dudley.towerdefense.framework.Game;
 import com.dudley.towerdefense.framework.Graphics;
 import com.dudley.towerdefense.framework.Screen;
@@ -17,14 +20,14 @@ public class LoadingScreen extends Screen {
     public void update(float deltaTime) {
         Graphics g = game.getGraphics();
         Assets.menu = g.newImage("menu.jpg", Graphics.ImageFormat.RGB565);
-        Assets.click = game.getAudio().createSound("explode.ogg");
+        Assets.click = game.getAudio().createSound("click.ogg");
+        Assets.map_1_1 = g.newImage("map_1_1.jpg", Graphics.ImageFormat.RGB565);
 
         game.setScreen(new MainMenuScreen(game));
     }
 
     @Override
     public void paint(float deltaTime) {
-
     }
 
     @Override
