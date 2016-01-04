@@ -6,14 +6,25 @@ import android.graphics.Paint;
 import com.dudley.towerdefense.framework.Game;
 import com.dudley.towerdefense.framework.Graphics;
 import com.dudley.towerdefense.framework.Screen;
+import com.dudley.towerdefense.framework.util.UiUtil;
+import com.dudley.towerdefense.sprite.BunnySprite;
+import com.dudley.towerdefense.sprite.FrogSprite;
 
 /**
  * Created by Justin on 1/2/2016.
  */
 public class LoadingScreen extends Screen {
 
+    Paint paint;
+
     public LoadingScreen(Game game) {
        super(game);
+
+        paint = new Paint();
+        paint.setTextSize(60);
+        paint.setTextAlign(Paint.Align.CENTER);
+        paint.setAntiAlias(true);
+        paint.setColor(Color.WHITE);
     }
 
     @Override
@@ -21,13 +32,21 @@ public class LoadingScreen extends Screen {
         Graphics g = game.getGraphics();
         Assets.menu = g.newImage("menu.jpg", Graphics.ImageFormat.RGB565);
         Assets.click = game.getAudio().createSound("click.ogg");
-        Assets.map_1_1 = g.newImage("map_1_1.jpg", Graphics.ImageFormat.RGB565);
+        Assets.map_1_1 = g.newImage("map_1_1.jpg", Graphics.ImageFormat.ARGB8888);
+
+        // Load bunny assets
+        Assets.spriteSheet = g.newImage("animalSprites.png", Graphics.ImageFormat.ARGB8888);
+
+        Assets.bunnySprite = new BunnySprite(game.getGraphics(), Assets.spriteSheet.getBitmap());
+        Assets.frogSprite = new FrogSprite(game.getGraphics(), Assets.spriteSheet.getBitmap());
 
         game.setScreen(new MainMenuScreen(game));
     }
 
     @Override
     public void paint(float deltaTime) {
+        Graphics g = game.getGraphics();
+        g.drawString("Loading...", UiUtil.getCenterXCoord(g, 400), UiUtil.getCenterYCoord(g, 75), paint);
     }
 
     @Override

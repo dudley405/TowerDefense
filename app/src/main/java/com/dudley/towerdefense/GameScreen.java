@@ -7,6 +7,8 @@ import com.dudley.towerdefense.framework.Game;
 import com.dudley.towerdefense.framework.Graphics;
 import com.dudley.towerdefense.framework.Screen;
 import com.dudley.towerdefense.framework.Input.TouchEvent;
+import com.dudley.towerdefense.sprite.BunnySprite;
+import com.dudley.towerdefense.sprite.Sprite;
 
 import java.util.List;
 
@@ -38,6 +40,7 @@ public class GameScreen extends Screen {
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setAntiAlias(true);
         paint.setColor(Color.WHITE);
+
 
     }
 
@@ -73,9 +76,6 @@ public class GameScreen extends Screen {
 
     private void updateRunning(List<TouchEvent> touchEvents, float deltaTime) {
 
-        //This is identical to the update() method from our Unit 2/3 game.
-
-
         // 1. All touch input is handled here:
         int len = touchEvents.size();
         for (int i = 0; i < len; i++) {
@@ -84,9 +84,9 @@ public class GameScreen extends Screen {
             if (event.type == TouchEvent.TOUCH_DOWN) {
 
                 if (event.x < 640) {
-                    // Move left.
+                    Assets.bunnySprite.moveLeft();
                 } else if (event.x > 640) {
-                    // Move right.
+                    Assets.bunnySprite.moveRight();
                 }
             }
 
@@ -98,6 +98,15 @@ public class GameScreen extends Screen {
                     // Stop moving right. }
                 }
             }
+
+            /*if (event.type == TouchEvent.TOUCH_HOLD) {
+
+                if (event.x < 640) {
+                    Assets.bunnySprite.moveLeft();
+                } else if (event.x > 640) {
+                    Assets.bunnySprite.moveRight();
+                }
+            }*/
         }
 
         // 2. Check miscellaneous events like death:
@@ -183,8 +192,10 @@ public class GameScreen extends Screen {
     private void drawRunningUI() {
         Graphics g = game.getGraphics();
         g.clearScreen(155);
-        g.drawImage(Assets.map_1_1, 0,0);
-
+        g.drawImage(Assets.map_1_1, -300, -300);
+        Assets.bunnySprite.onDraw();
+        Assets.frogSprite.setSpeed(1);
+        Assets.frogSprite.onDraw();
     }
 
     private void drawPausedUI() {

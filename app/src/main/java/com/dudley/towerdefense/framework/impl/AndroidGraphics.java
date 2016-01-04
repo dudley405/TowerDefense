@@ -131,8 +131,6 @@ public class AndroidGraphics implements Graphics {
     }
 
     public void drawScaledImage(Image Image, int x, int y, int width, int height, int srcX, int srcY, int srcWidth, int srcHeight){
-
-
         srcRect.left = srcX;
         srcRect.top = srcY;
         srcRect.right = srcX + srcWidth;
@@ -145,6 +143,10 @@ public class AndroidGraphics implements Graphics {
 
         canvas.drawBitmap(((AndroidImage) Image).bitmap, srcRect, dstRect, null);
 
+    }
+
+    public void drawBitmap(Bitmap bitmap, Rect src, Rect dst, Paint paint) {
+        canvas.drawBitmap(bitmap, src, dst, paint);
     }
 
     @Override

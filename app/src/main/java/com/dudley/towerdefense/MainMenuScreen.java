@@ -10,6 +10,7 @@ import com.dudley.towerdefense.framework.Graphics;
 import com.dudley.towerdefense.framework.Screen;
 import com.dudley.towerdefense.framework.Input.TouchEvent;
 import com.dudley.towerdefense.framework.impl.AndroidFastRenderView;
+import com.dudley.towerdefense.framework.util.UiUtil;
 
 import java.util.List;
 
@@ -43,8 +44,8 @@ public class MainMenuScreen extends Screen {
                 int width = 400;
                 int height = 75;
 
-                int x = game.getGraphics().getWidth() / 2 - (width / 2);
-                int y = game.getGraphics().getHeight() / 2 - (height / 2);
+                int x = UiUtil.getCenterXCoord(game.getGraphics(), width);
+                int y = UiUtil.getCenterYCoord(game.getGraphics(), height);
 
                 if (inBounds(event, x, y, width, height)) {
                     //START GAME

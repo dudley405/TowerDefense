@@ -36,4 +36,10 @@ public class AndroidImage implements Image {
     public void dispose() {
         bitmap.recycle();
     }
+
+    @Override
+    public Bitmap getBitmap() {
+        return this.bitmap;
+    }
+
 }

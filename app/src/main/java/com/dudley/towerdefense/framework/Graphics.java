@@ -1,6 +1,8 @@
 package com.dudley.towerdefense.framework;
 
+import android.graphics.Bitmap;
 import android.graphics.Paint;
+import android.graphics.Rect;
 
 /**
  * Created by lenovo on 12/30/2015.
@@ -24,6 +26,8 @@ public interface Graphics {
     public void drawImage(Image Image, int x, int y);
 
     void drawString(String text, int x, int y, Paint paint);
+
+    public void drawBitmap(Bitmap bitmap, Rect src, Rect dst, Paint paint);
 
     public int getWidth();
 
