@@ -1,8 +1,11 @@
-package com.dudley.towerdefense;
+package com.dudley.towerdefense.level;
 
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 
+import com.dudley.towerdefense.Assets;
+import com.dudley.towerdefense.MainMenuScreen;
 import com.dudley.towerdefense.framework.Game;
 import com.dudley.towerdefense.framework.Graphics;
 import com.dudley.towerdefense.framework.Screen;
@@ -15,7 +18,9 @@ import java.util.List;
 /**
  * Created by Justin on 1/2/2016.
  */
-public class GameScreen extends Screen {
+public class Level1Screen extends Screen {
+
+    Path path;
 
     enum GameState {
         Ready, Running, Paused, GameOver
@@ -29,8 +34,12 @@ public class GameScreen extends Screen {
     int livesLeft = 1;
     Paint paint;
 
-    public GameScreen(Game game) {
+    public Level1Screen(Game game) {
         super(game);
+
+        setPath(buildPath());
+
+        Assets.bunnySprite.setPath(getPath());
 
         // Initialize game objects here
 
@@ -40,8 +49,8 @@ public class GameScreen extends Screen {
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setAntiAlias(true);
         paint.setColor(Color.WHITE);
-
-
+        paint.setStrokeWidth(1);
+        paint.setStyle(Paint.Style.STROKE);
     }
 
     @Override
@@ -81,32 +90,38 @@ public class GameScreen extends Screen {
         for (int i = 0; i < len; i++) {
             TouchEvent event = touchEvents.get(i);
 
-            if (event.type == TouchEvent.TOUCH_DOWN) {
+            /*if (event.type == TouchEvent.TOUCH_DOWN) {
 
                 if (event.x < 640) {
                     Assets.bunnySprite.moveLeft();
+                    Assets.frogSprite.moveLeft();
                 } else if (event.x > 640) {
                     Assets.bunnySprite.moveRight();
+                    Assets.frogSprite.moveRight();
                 }
-            }
+            }*/
 
-            if (event.type == TouchEvent.TOUCH_UP) {
+            /*if (event.type == TouchEvent.TOUCH_UP) {
 
                 if (event.x < 640) {
                     // Stop moving left.
                 } else if (event.x > 640) {
                     // Stop moving right. }
                 }
-            }
-
-            /*if (event.type == TouchEvent.TOUCH_HOLD) {
-
-                if (event.x < 640) {
-                    Assets.bunnySprite.moveLeft();
-                } else if (event.x > 640) {
-                    Assets.bunnySprite.moveRight();
-                }
             }*/
+
+            if (event.type == TouchEvent.TOUCH_DRAGGED) {
+
+                if (event.x < 320) {
+                    Assets.bunnySprite.moveLeft();
+                } else if (event.x > 960) {
+                    Assets.bunnySprite.moveRight();
+                } else if (event.x > 320 && event.x < 960 && event.y < 400) {
+                    Assets.bunnySprite.moveUp();
+                } else if (event.x > 320 && event.x < 960 && event.y > 400) {
+                    Assets.bunnySprite.moveDown();
+                }
+            }
         }
 
         // 2. Check miscellaneous events like death:
@@ -194,8 +209,6 @@ public class GameScreen extends Screen {
         g.clearScreen(155);
         g.drawImage(Assets.map_1_1, -300, -300);
         Assets.bunnySprite.onDraw();
-        Assets.frogSprite.setSpeed(1);
-        Assets.frogSprite.onDraw();
     }
 
     private void drawPausedUI() {
@@ -232,6 +245,23 @@ public class GameScreen extends Screen {
     @Override
     public void backButton() {
         pause();
+    }
+
+    private void setPath(Path path){
+        this.path = path;
+    }
+
+    protected Path getPath() {
+        return this.path;
+    }
+
+    private Path buildPath() {
+        Path path = new Path();
+        path.moveTo(-50, 300);
+        path.lineTo(300, 300);
+        path.lineTo(700, 300);
+        path.lineTo(700, 0);
+        return path;
     }
 }
 

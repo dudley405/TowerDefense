@@ -2,15 +2,13 @@ package com.dudley.towerdefense;
 
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.view.View;
-import android.widget.Button;
 
 import com.dudley.towerdefense.framework.Game;
 import com.dudley.towerdefense.framework.Graphics;
-import com.dudley.towerdefense.framework.Screen;
 import com.dudley.towerdefense.framework.Input.TouchEvent;
-import com.dudley.towerdefense.framework.impl.AndroidFastRenderView;
+import com.dudley.towerdefense.framework.Screen;
 import com.dudley.towerdefense.framework.util.UiUtil;
+import com.dudley.towerdefense.level.Level1Screen;
 
 import java.util.List;
 
@@ -50,7 +48,7 @@ public class MainMenuScreen extends Screen {
                 if (inBounds(event, x, y, width, height)) {
                     //START GAME
                     Assets.click.play(100);
-                    game.setScreen(new GameScreen(game));
+                    game.setScreen(new Level1Screen(game));
                 }
             }
         }

@@ -19,5 +19,4 @@ public class Assets {
 
     // Sprites
     public static BunnySprite bunnySprite;
-    public static FrogSprite frogSprite;
 }

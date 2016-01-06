@@ -16,10 +16,5 @@ public class FrogSprite extends Sprite {
 
     public void onDraw() {
         update(System.currentTimeMillis());
-        int srcX = (SpriteMapper.frogRightStartX + currentFrame) * width;
-        int srcY = SpriteMapper.frogRightStartY * height;
-        Rect src = new Rect(srcX, srcY, srcX + width, srcY + height);
-        Rect dst = new Rect(x, y, x + width, y + height);
-        graphics.drawBitmap(bmp, src, dst, paint);
     }
 }

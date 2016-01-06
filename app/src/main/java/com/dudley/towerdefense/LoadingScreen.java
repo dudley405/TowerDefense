@@ -1,11 +1,14 @@
 package com.dudley.towerdefense;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.dudley.towerdefense.framework.Game;
 import com.dudley.towerdefense.framework.Graphics;
+import com.dudley.towerdefense.framework.Image;
 import com.dudley.towerdefense.framework.Screen;
+import com.dudley.towerdefense.framework.impl.AndroidImage;
 import com.dudley.towerdefense.framework.util.UiUtil;
 import com.dudley.towerdefense.sprite.BunnySprite;
 import com.dudley.towerdefense.sprite.FrogSprite;
@@ -32,13 +35,15 @@ public class LoadingScreen extends Screen {
         Graphics g = game.getGraphics();
         Assets.menu = g.newImage("menu.jpg", Graphics.ImageFormat.RGB565);
         Assets.click = game.getAudio().createSound("click.ogg");
+
         Assets.map_1_1 = g.newImage("map_1_1.jpg", Graphics.ImageFormat.ARGB8888);
 
         // Load bunny assets
-        Assets.spriteSheet = g.newImage("animalSprites.png", Graphics.ImageFormat.ARGB8888);
+        Bitmap sprite = g.newImage("animalSprites.png", Graphics.ImageFormat.ARGB8888).getBitmap();
+        sprite = sprite.createScaledBitmap(sprite,768,512, false);
+        Assets.spriteSheet = new AndroidImage(sprite, Graphics.ImageFormat.ARGB8888);
 
         Assets.bunnySprite = new BunnySprite(game.getGraphics(), Assets.spriteSheet.getBitmap());
-        Assets.frogSprite = new FrogSprite(game.getGraphics(), Assets.spriteSheet.getBitmap());
 
         game.setScreen(new MainMenuScreen(game));
     }
