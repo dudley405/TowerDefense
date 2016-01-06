@@ -130,8 +130,6 @@ public class Sprite {
         if (mX == null || mY == null) {
             mX = new int[numPoints];
             mY = new int[numPoints];
-            java.util.Arrays.fill(mX, 999999);
-            java.util.Arrays.fill(mY, 999999);
         }
 
         final float[] position = new float[2];
