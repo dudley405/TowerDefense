@@ -1,15 +1,12 @@
 package com.dudley.towerdefense.sprite;
 
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
-import android.graphics.Rect;
 
 import com.dudley.towerdefense.Animation;
 import com.dudley.towerdefense.framework.Graphics;
-import com.dudley.towerdefense.framework.util.PathPoints;
 
 /**
  * Created by Justin on 1/3/2016.
@@ -56,12 +53,7 @@ public class Sprite {
         paint = new Paint(Paint.FILTER_BITMAP_FLAG);
     }
 
-    protected void update(long gameTime) {
-        animationLeft.update(gameTime);
-        animationRight.update(gameTime);
-        animationUp.update(gameTime);
-        animationDown.update(gameTime);
-
+    protected void update() {
         getPathPoints();
 
         // Set animation based on direction of movement
@@ -148,6 +140,21 @@ public class Sprite {
                 i++;
             }
         }
+    }
 
+    public int getXCoord() {
+        return x;
+    }
+
+    public int getYCoord(){
+        return y;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 }

@@ -18,7 +18,13 @@ public class BunnySprite extends Sprite {
     }
 
     public void onDraw() {
-        update(System.currentTimeMillis());
+        update();
+
+        long gameTime = System.currentTimeMillis();
+        animationLeft.update(gameTime);
+        animationRight.update(gameTime);
+        animationUp.update(gameTime);
+        animationDown.update(gameTime);
 
         Rect dst = new Rect(x, y, x + width, y + height);
         if (isMovingRight) {

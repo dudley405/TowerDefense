@@ -15,6 +15,6 @@ public class FrogSprite extends Sprite {
     }
 
     public void onDraw() {
-        update(System.currentTimeMillis());
+        update();
     }
 }

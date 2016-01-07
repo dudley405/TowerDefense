@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by Justin on 1/2/2016.
  */
-public class Level1Screen extends Screen {
+public class LevelScreen extends Screen {
 
     Path path;
 
@@ -34,12 +34,10 @@ public class Level1Screen extends Screen {
     int livesLeft = 1;
     Paint paint;
 
-    public Level1Screen(Game game) {
+    public LevelScreen(Game game) {
         super(game);
 
         setPath(buildPath());
-
-        Assets.bunnySprite.setPath(getPath());
 
         // Initialize game objects here
 
@@ -49,8 +47,8 @@ public class Level1Screen extends Screen {
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setAntiAlias(true);
         paint.setColor(Color.WHITE);
-        paint.setStrokeWidth(1);
-        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(2);
+        paint.setStyle(Paint.Style.FILL_AND_STROKE);
     }
 
     @Override
@@ -110,18 +108,10 @@ public class Level1Screen extends Screen {
                 }
             }*/
 
-            if (event.type == TouchEvent.TOUCH_DRAGGED) {
+            if (event.type == TouchEvent.TOUCH_DOWN) {
 
-                if (event.x < 320) {
-                    Assets.bunnySprite.moveLeft();
-                } else if (event.x > 960) {
-                    Assets.bunnySprite.moveRight();
-                } else if (event.x > 320 && event.x < 960 && event.y < 400) {
-                    Assets.bunnySprite.moveUp();
-                } else if (event.x > 320 && event.x < 960 && event.y > 400) {
-                    Assets.bunnySprite.moveDown();
-                }
             }
+
         }
 
         // 2. Check miscellaneous events like death:
@@ -194,21 +184,12 @@ public class Level1Screen extends Screen {
         System.gc();
     }
 
-    private void drawReadyUI() {
-        Graphics g = game.getGraphics();
-
-        g.drawARGB(155, 0, 0, 0);
-        g.drawString("Touch to Begin",
-                640, 300, paint);
-
-
+    public void drawReadyUI() {
+        String test = "test";
     }
 
-    private void drawRunningUI() {
-        Graphics g = game.getGraphics();
-        g.clearScreen(155);
-        g.drawImage(Assets.map_1_1, -300, -300);
-        Assets.bunnySprite.onDraw();
+    public void drawRunningUI() {
+        String test = "test";
     }
 
     private void drawPausedUI() {
@@ -255,13 +236,8 @@ public class Level1Screen extends Screen {
         return this.path;
     }
 
-    private Path buildPath() {
-        Path path = new Path();
-        path.moveTo(-50, 300);
-        path.lineTo(300, 300);
-        path.lineTo(700, 300);
-        path.lineTo(700, 0);
-        return path;
+    public Path buildPath() {
+       return new Path();
     }
 }
 

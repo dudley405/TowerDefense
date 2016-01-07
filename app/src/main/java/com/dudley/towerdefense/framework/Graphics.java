@@ -29,6 +29,8 @@ public interface Graphics {
 
     public void drawBitmap(Bitmap bitmap, Rect src, Rect dst, Paint paint);
 
+    public void drawCircle(float x, float y, float radius, Paint paint);
+
     public int getWidth();
 
     public int getHeight();

@@ -149,6 +149,10 @@ public class AndroidGraphics implements Graphics {
         canvas.drawBitmap(bitmap, src, dst, paint);
     }
 
+    public void drawCircle(float x, float y, float radius, Paint paint) {
+        canvas.drawCircle(x, y, radius, paint);
+    }
+
     @Override
     public int getWidth() {
         return frameBuffer.getWidth();

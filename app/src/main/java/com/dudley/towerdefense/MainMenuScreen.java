@@ -8,7 +8,8 @@ import com.dudley.towerdefense.framework.Graphics;
 import com.dudley.towerdefense.framework.Input.TouchEvent;
 import com.dudley.towerdefense.framework.Screen;
 import com.dudley.towerdefense.framework.util.UiUtil;
-import com.dudley.towerdefense.level.Level1Screen;
+import com.dudley.towerdefense.level.LevelScreen;
+import com.dudley.towerdefense.level.LevelScreen1;
 
 import java.util.List;
 
@@ -45,24 +46,17 @@ public class MainMenuScreen extends Screen {
                 int x = UiUtil.getCenterXCoord(game.getGraphics(), width);
                 int y = UiUtil.getCenterYCoord(game.getGraphics(), height);
 
-                if (inBounds(event, x, y, width, height)) {
+                if (UiUtil.inBounds(event, x, y, width, height)) {
                     //START GAME
                     Assets.click.play(100);
-                    game.setScreen(new Level1Screen(game));
+                    game.setScreen(new LevelScreen1(game));
                 }
             }
         }
     }
 
 
-    private boolean inBounds(TouchEvent event, int x, int y, int width,
-                             int height) {
-        if (event.x > x && event.x < x + width - 1 && event.y > y
-                && event.y < y + height - 1)
-            return true;
-        else
-            return false;
-    }
+
 
     @Override
     public void paint(float deltaTime) {
