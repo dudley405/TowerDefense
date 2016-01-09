@@ -33,15 +33,15 @@ public class Animation {
 
     public synchronized void update(long currentTime) {
         long elapsedTime = currentTime - lastPolledTime;
-        if(frames.size() > 0) {
-            if (currentFrame == 2) {
+        if(frames.size() > 0 && currentFrame < frames.size()) {
+            if (currentFrame == frames.size() - 1) {
                 currentFrame = 0;
             }
 
             if (elapsedTime > getFrame(currentFrame).endTime) {
 
                 lastPolledTime = currentTime;
-                if (currentFrame < 2) {
+                if (currentFrame < frames.size() - 2) {
                     currentFrame++;
                 } else {
                     currentFrame = 0;

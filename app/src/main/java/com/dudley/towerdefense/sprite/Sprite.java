@@ -4,9 +4,12 @@ import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
+import android.graphics.Rect;
 
 import com.dudley.towerdefense.Animation;
 import com.dudley.towerdefense.framework.Graphics;
+
+import java.util.Random;
 
 /**
  * Created by Justin on 1/3/2016.
@@ -15,7 +18,7 @@ public class Sprite {
 
     protected static final int BMP_ROWS = 8;
     protected static final int BMP_COLUMNS = 12;
-    protected int x =  0;
+    protected int x = 0;
     protected int y = 0;
     protected int[] mX;
     protected int[] mY;
@@ -26,6 +29,7 @@ public class Sprite {
     protected int width;
     protected int height;
     private int speed = 2;
+    protected int delay;
 
     boolean isMovingRight;
     boolean isMovingLeft;
@@ -74,7 +78,9 @@ public class Sprite {
         isMovingLeft = false;
         isMovingUp = false;
         isMovingDown = false;
-    };
+    }
+
+    ;
 
     public void moveLeft() {
         isMovingLeft = true;
@@ -105,8 +111,12 @@ public class Sprite {
         return this.speed;
     }
 
-    public void setPath(Path path){
+    public void setPath(Path path) {
         this.path = path;
+        Random rand = new Random();
+        int xOffset = rand.nextInt(30) - 15;
+        int yOffset = rand.nextInt(30) - 15;
+        this.path.offset(xOffset, yOffset);
         pathMeasure.setPath(this.path, false);
     }
 
@@ -132,11 +142,11 @@ public class Sprite {
             x = mX[i] = (int) position[0];
             y = mY[i] = (int) position[1];
 
-            if(i > 0) {
+            if (i > 0) {
                 lastXPoint = mX[i - 1];
                 lastYPoint = mY[i - 1];
             }
-            if(i != (numPoints - 1)) {
+            if (i != (numPoints - 1)) {
                 i++;
             }
         }
@@ -146,7 +156,7 @@ public class Sprite {
         return x;
     }
 
-    public int getYCoord(){
+    public int getYCoord() {
         return y;
     }
 

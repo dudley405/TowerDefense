@@ -6,36 +6,19 @@ import android.graphics.Rect;
 import com.dudley.towerdefense.Animation;
 import com.dudley.towerdefense.framework.Graphics;
 
+import java.util.Random;
+
 /**
  * Created by Justin on 1/3/2016.
  */
 public class BunnySprite extends Sprite {
 
+
     public BunnySprite(Graphics graphics, Bitmap bmp) {
         super(graphics, bmp);
 
         setUpAnimations();
-    }
 
-    public void onDraw() {
-        update();
-
-        long gameTime = System.currentTimeMillis();
-        animationLeft.update(gameTime);
-        animationRight.update(gameTime);
-        animationUp.update(gameTime);
-        animationDown.update(gameTime);
-
-        Rect dst = new Rect(x, y, x + width, y + height);
-        if (isMovingRight) {
-            graphics.drawBitmap(bmp, animationRight.getRect(), dst, paint);
-        } else if (isMovingLeft) {
-            graphics.drawBitmap(bmp, animationLeft.getRect(), dst, paint);
-        } else if (isMovingUp) {
-            graphics.drawBitmap(bmp, animationUp.getRect(), dst, paint);
-        } else if (isMovingDown) {
-            graphics.drawBitmap(bmp, animationDown.getRect(), dst, paint);
-        }
     }
 
     private void setUpAnimations() {
@@ -91,5 +74,27 @@ public class BunnySprite extends Sprite {
         srcX += width;
         src = new Rect(srcX, srcY, srcX + width, srcY + height);
         animationDown.addFrame(src, 200);
+    }
+
+    public void onDraw() {
+        long gameTime = System.currentTimeMillis();
+
+        update();
+
+        animationLeft.update(gameTime);
+        animationRight.update(gameTime);
+        animationUp.update(gameTime);
+        animationDown.update(gameTime);
+
+        Rect dst = new Rect(x, y, x + width, y + height);
+        if (isMovingRight) {
+            graphics.drawBitmap(bmp, animationRight.getRect(), dst, paint);
+        } else if (isMovingLeft) {
+            graphics.drawBitmap(bmp, animationLeft.getRect(), dst, paint);
+        } else if (isMovingUp) {
+            graphics.drawBitmap(bmp, animationUp.getRect(), dst, paint);
+        } else if (isMovingDown) {
+            graphics.drawBitmap(bmp, animationDown.getRect(), dst, paint);
+        }
     }
 }

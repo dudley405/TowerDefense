@@ -43,8 +43,6 @@ public class LoadingScreen extends Screen {
         sprite = sprite.createScaledBitmap(sprite,768,512, false);
         Assets.spriteSheet = new AndroidImage(sprite, Graphics.ImageFormat.ARGB8888);
 
-        Assets.bunnySprite = new BunnySprite(game.getGraphics(), Assets.spriteSheet.getBitmap());
-
         game.setScreen(new MainMenuScreen(game));
     }
 

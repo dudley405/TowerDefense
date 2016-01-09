@@ -17,6 +17,4 @@ public class Assets {
 
     public static Image spriteSheet;
 
-    // Sprites
-    public static BunnySprite bunnySprite;
 }
