@@ -21,6 +21,10 @@ public class BunnySprite extends Sprite {
 
     }
 
+    /**
+     * Add the appropriate images to be used in the animations
+     * and create the animations.
+     */
     private void setUpAnimations() {
 
         /** Right Animations **/

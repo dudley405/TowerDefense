@@ -73,6 +73,12 @@ public class Sprite {
 
     }
 
+    /*
+     * Here we want to distinguish which direction the sprite is moving
+     * so that we can display the appropriate animation (bunny is moving right
+     * animation, bunny is moving left animiation, etc.)
+     */
+
     public void moveRight() {
         isMovingRight = true;
         isMovingLeft = false;
@@ -111,6 +117,11 @@ public class Sprite {
         return this.speed;
     }
 
+    /**
+     * Set the path the sprite will follow
+     * @param path
+     * @param isEnemy
+     */
     public void setPath(Path path, boolean isEnemy) {
         if(isEnemy) {
             this.path = path;
@@ -129,6 +140,10 @@ public class Sprite {
         return this.path;
     }
 
+    /**
+     * Get the path that the sprite will follow. The sprite will follow
+     * the path at what speed is set
+     */
     protected void getPathPoints() {
 
         final float pathLength = pathMeasure.getLength();

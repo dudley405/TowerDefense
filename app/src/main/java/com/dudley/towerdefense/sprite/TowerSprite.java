@@ -14,6 +14,7 @@ public class TowerSprite extends Sprite {
 
     private Coordinates locationCoords;
 
+    // Default animation is tower doing nothing
     Animation animationDefault = new Animation();
 
     public TowerSprite(Graphics graphics, Bitmap bmp, Coordinates coords) {
@@ -34,6 +35,8 @@ public class TowerSprite extends Sprite {
         animationDown.update(gameTime);
         animationDefault.update(gameTime);
 
+        // get coordinates based on which tower build location
+        // was selected. Draw tower at that location
         x = locationCoords.getX() - locationCoords.getRadius();
         y = locationCoords.getY() - locationCoords.getRadius();
 

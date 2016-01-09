@@ -98,9 +98,11 @@ public class LevelScreen extends Screen {
             TouchEvent event = touchEvents.get(i);
 
 
+            // Check to see if a user has click a tower location
             if (event.type == TouchEvent.TOUCH_DOWN) {
                 for(TowerLocation location : levelTowerLocations) {
                     if(UiUtil.inBounds(event, location.getCoords().getX(), location.getCoords().getY(), location.getCoords().getRadius())) {
+                        // set the tower type based on what the user selected
                         location.setTowerType(TowerType.FIRE);
                     }
                 }
@@ -108,7 +110,7 @@ public class LevelScreen extends Screen {
         }
 
 
-
+        // TODO
         if (livesLeft == 0) {
             state = GameState.GameOver;
         }

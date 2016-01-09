@@ -7,6 +7,11 @@ public class SpriteMapper {
 
     private SpriteMapper() {};
 
+    /**
+     * Map which column and row the animation starts at on the
+     * spritesheet
+     */
+
     public static int bunnyRightStartX = 9;
     public static int bunnyRightStartY = 6;
     public static int bunnyLeftStartX = 9;

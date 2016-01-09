@@ -12,14 +12,37 @@ public class UiUtil {
 
     }
 
+    /**
+     * Normally cooridnates are given as the top left corner of a rectangle
+     * This method will return the center X of that rectangle
+     * @param graphics
+     * @param width
+     * @return
+     */
     public static int getCenterXCoord(Graphics graphics, int width) {
         return graphics.getWidth() / 2 - (width / 2);
     }
 
+    /**
+     * Normally cooridnates are given as the top left corner of a rectangle
+     * This method will return the center Y of that rectangle
+     * @param graphics
+     * @param height
+     * @return
+     */
     public static int getCenterYCoord(Graphics graphics, int height) {
         return graphics.getHeight() / 2 - (height / 2);
     }
 
+    /**
+     * Check if touch is inside a rectangle
+     * @param event
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @return
+     */
     public static boolean inBounds(Input.TouchEvent event, int x, int y, int width,
                              int height) {
         if (event.x > x && event.x < x + width - 1 && event.y > y
@@ -29,6 +52,14 @@ public class UiUtil {
             return false;
     }
 
+    /**
+     * Check if touch is inside a circle
+     * @param event
+     * @param x
+     * @param y
+     * @param radius
+     * @return
+     */
     public static boolean inBounds(Input.TouchEvent event, int x, int y, int radius) {
         double dx = Math.pow(event.x - x, 2);
         double dy = Math.pow(event.y - y, 2);

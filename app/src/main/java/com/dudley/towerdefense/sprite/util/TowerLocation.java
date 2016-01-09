@@ -3,7 +3,8 @@ package com.dudley.towerdefense.sprite.util;
 import com.dudley.towerdefense.framework.util.Coordinates;
 
 /**
- * Created by Justin on 1/8/2016.
+ * Needed to keep track of the tower locations and what type of towers
+ * exist at those locations
  */
 public class TowerLocation {
 

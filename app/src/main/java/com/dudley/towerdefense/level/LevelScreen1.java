@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Created by Justin on 1/6/2016.
+ * Level 1
  */
 public class LevelScreen1 extends LevelScreen {
 
@@ -28,6 +28,8 @@ public class LevelScreen1 extends LevelScreen {
     public LevelScreen1(Game game) {
         super(game);
 
+        // create all the sprites for this level
+        // Need to make sprites spawn in waves
         for (int i = 0; i < 21; i++) {
 
             BunnySprite sprite = new BunnySprite(game.getGraphics(), Assets.spriteSheet.getBitmap());
@@ -60,6 +62,7 @@ public class LevelScreen1 extends LevelScreen {
 
             String towerType = location.getTowerType();
 
+            // Draw towers
             if(towerType != null && towerType.equals(TowerType.FIRE)) {
                 paint.setColor(Color.RED);
                 TowerSprite sprite = new TowerSprite(game.getGraphics(), Assets.spriteSheet.getBitmap(), location.getCoords());
