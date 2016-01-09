@@ -10,15 +10,22 @@ import com.dudley.towerdefense.framework.Game;
 import com.dudley.towerdefense.framework.Graphics;
 import com.dudley.towerdefense.framework.Screen;
 import com.dudley.towerdefense.framework.Input.TouchEvent;
+import com.dudley.towerdefense.framework.util.Coordinates;
+import com.dudley.towerdefense.framework.util.UiUtil;
 import com.dudley.towerdefense.sprite.BunnySprite;
 import com.dudley.towerdefense.sprite.Sprite;
+import com.dudley.towerdefense.sprite.util.TowerLocation;
+import com.dudley.towerdefense.sprite.util.TowerType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Justin on 1/2/2016.
  */
 public class LevelScreen extends Screen {
+
+    List<TowerLocation> levelTowerLocations = new ArrayList<>();
 
     Path path;
 
@@ -49,6 +56,8 @@ public class LevelScreen extends Screen {
         paint.setColor(Color.WHITE);
         paint.setStrokeWidth(2);
         paint.setStyle(Paint.Style.FILL_AND_STROKE);
+
+
     }
 
     @Override
@@ -88,42 +97,22 @@ public class LevelScreen extends Screen {
         for (int i = 0; i < len; i++) {
             TouchEvent event = touchEvents.get(i);
 
-            /*if (event.type == TouchEvent.TOUCH_DOWN) {
-
-                if (event.x < 640) {
-                    Assets.bunnySprite.moveLeft();
-                    Assets.frogSprite.moveLeft();
-                } else if (event.x > 640) {
-                    Assets.bunnySprite.moveRight();
-                    Assets.frogSprite.moveRight();
-                }
-            }*/
-
-            /*if (event.type == TouchEvent.TOUCH_UP) {
-
-                if (event.x < 640) {
-                    // Stop moving left.
-                } else if (event.x > 640) {
-                    // Stop moving right. }
-                }
-            }*/
 
             if (event.type == TouchEvent.TOUCH_DOWN) {
-
+                for(TowerLocation location : levelTowerLocations) {
+                    if(UiUtil.inBounds(event, location.getCoords().getX(), location.getCoords().getY(), 40, 40)) {
+                        location.setTowerType(TowerType.FIRE);
+                    }
+                }
             }
-
         }
 
-        // 2. Check miscellaneous events like death:
+
 
         if (livesLeft == 0) {
             state = GameState.GameOver;
         }
 
-
-        // 3. Call individual update() methods here.
-        // This is where all the game updates happen.
-        // For example, robot.update();
     }
 
     private void updatePaused(List<TouchEvent> touchEvents) {
