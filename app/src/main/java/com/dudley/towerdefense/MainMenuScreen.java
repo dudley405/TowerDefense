@@ -49,6 +49,7 @@ public class MainMenuScreen extends Screen {
                 if (UiUtil.inBounds(event, x, y, width, height)) {
                     //START GAME
                     Assets.click.play(100);
+                    // TODO take user to level selection screen and/or other menus
                     game.setScreen(new LevelScreen1(game));
                 }
             }

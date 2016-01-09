@@ -66,11 +66,6 @@ public class LevelScreen extends Screen {
     public void update(float deltaTime) {
         List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
 
-        // We have four separate update methods in this example.
-        // Depending on the state of the game, we call different update methods.
-        // Refer to Unit 3's code. We did a similar thing without separating the
-        // update methods.
-
         if (state == GameState.Ready)
             updateReady(touchEvents);
         if (state == GameState.Running)
@@ -83,10 +78,7 @@ public class LevelScreen extends Screen {
 
     private void updateReady(List<TouchEvent> touchEvents) {
 
-        // This example starts with a "Ready" screen.
-        // When the user touches the screen, the game begins.
-        // state now becomes GameState.Running.
-        // Now the updateRunning() method will be called!
+       // Game staging screen..user must click to start level
 
         if (touchEvents.size() > 0)
             state = GameState.Running;
