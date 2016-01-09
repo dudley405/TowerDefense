@@ -1,6 +1,7 @@
 package com.dudley.towerdefense.sprite.util;
 
 import com.dudley.towerdefense.framework.util.Coordinates;
+import com.dudley.towerdefense.sprite.TowerSprite;
 
 /**
  * Needed to keep track of the tower locations and what type of towers
@@ -8,19 +9,11 @@ import com.dudley.towerdefense.framework.util.Coordinates;
  */
 public class TowerLocation {
 
-    Coordinates coords;
-    String towerType;
+    private Coordinates coords;
+    private TowerSprite tower;
 
     public TowerLocation(Coordinates coords) {
         this.coords = coords;
-    }
-
-    public void setTowerType(String towerType) {
-        this.towerType = towerType;
-    }
-
-    public String getTowerType() {
-        return this.towerType;
     }
 
     public Coordinates getCoords() {
@@ -31,4 +24,11 @@ public class TowerLocation {
         this.coords = coords;
     }
 
+    public TowerSprite getTower() {
+        return tower;
+    }
+
+    public void setTower(TowerSprite tower) {
+        this.tower = tower;
+    }
 }

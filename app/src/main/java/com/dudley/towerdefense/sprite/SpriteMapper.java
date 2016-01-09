@@ -24,4 +24,7 @@ public class SpriteMapper {
     public static int frogRightStartX = 6;
     public static int frogRightStartY = 6;
 
+    public static int birdDownStartX = 6;
+    public static int birdDownStartY = 0;
+
 }

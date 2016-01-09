@@ -40,6 +40,7 @@ public class LoadingScreen extends Screen {
 
         // Load bunny assets
         Bitmap sprite = g.newImage("animalSprites.png", Graphics.ImageFormat.ARGB8888).getBitmap();
+        // scale the spritesheet to make sprites appear larger
         sprite = sprite.createScaledBitmap(sprite,768,512, false);
         Assets.spriteSheet = new AndroidImage(sprite, Graphics.ImageFormat.ARGB8888);
 

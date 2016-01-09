@@ -29,7 +29,6 @@ public class Sprite {
     protected int width;
     protected int height;
     private int speed = 2;
-    protected int delay;
 
     boolean isMovingRight;
     boolean isMovingLeft;
@@ -86,7 +85,6 @@ public class Sprite {
         isMovingDown = false;
     }
 
-    ;
 
     public void moveLeft() {
         isMovingLeft = true;
@@ -125,6 +123,8 @@ public class Sprite {
     public void setPath(Path path, boolean isEnemy) {
         if(isEnemy) {
             this.path = path;
+            // if its an enemy sprite, we want some variance
+            // so that you can see each sprite
             Random rand = new Random();
             int xOffset = rand.nextInt(30) - 15;
             int yOffset = rand.nextInt(30) - 15;

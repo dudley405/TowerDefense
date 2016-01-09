@@ -23,7 +23,6 @@ import java.util.Random;
 public class LevelScreen1 extends LevelScreen {
 
     public List<BunnySprite> sprites = new ArrayList<BunnySprite>();
-    public List<TowerSprite> towerSprites = new ArrayList<TowerSprite>();
 
     public LevelScreen1(Game game) {
         super(game);
@@ -60,13 +59,9 @@ public class LevelScreen1 extends LevelScreen {
             int y = location.getCoords().getY();
             int radius = location.getCoords().getRadius();
 
-            String towerType = location.getTowerType();
-
             // Draw towers
-            if(towerType != null && towerType.equals(TowerType.FIRE)) {
-                paint.setColor(Color.RED);
-                TowerSprite sprite = new TowerSprite(game.getGraphics(), Assets.spriteSheet.getBitmap(), location.getCoords());
-                towerSprites.add(sprite);
+            if(location.getTower() != null) {
+                location.getTower().onDraw();
             } else {
                 paint.setColor(Color.WHITE);
                 g.drawCircle(x, y, radius, paint);
@@ -78,9 +73,6 @@ public class LevelScreen1 extends LevelScreen {
             sprite.onDraw();
         }
 
-        for (TowerSprite towerSprite : towerSprites) {
-            towerSprite.onDraw();
-        }
     }
 
     /**
