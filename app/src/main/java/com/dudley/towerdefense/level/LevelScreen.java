@@ -100,7 +100,7 @@ public class LevelScreen extends Screen {
 
             if (event.type == TouchEvent.TOUCH_DOWN) {
                 for(TowerLocation location : levelTowerLocations) {
-                    if(UiUtil.inBounds(event, location.getCoords().getX(), location.getCoords().getY(), 40, 40)) {
+                    if(UiUtil.inBounds(event, location.getCoords().getX(), location.getCoords().getY(), location.getCoords().getRadius())) {
                         location.setTowerType(TowerType.FIRE);
                     }
                 }

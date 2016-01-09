@@ -34,8 +34,8 @@ public class TowerSprite extends Sprite {
         animationDown.update(gameTime);
         animationDefault.update(gameTime);
 
-        x = locationCoords.getX();
-        y = locationCoords.getY();
+        x = locationCoords.getX() - locationCoords.getRadius();
+        y = locationCoords.getY() - locationCoords.getRadius();
 
         Rect dst = new Rect(x, y, x + width, y + height);
 

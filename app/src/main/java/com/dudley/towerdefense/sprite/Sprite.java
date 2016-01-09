@@ -111,13 +111,18 @@ public class Sprite {
         return this.speed;
     }
 
-    public void setPath(Path path) {
-        this.path = path;
-        Random rand = new Random();
-        int xOffset = rand.nextInt(30) - 15;
-        int yOffset = rand.nextInt(30) - 15;
-        this.path.offset(xOffset, yOffset);
-        pathMeasure.setPath(this.path, false);
+    public void setPath(Path path, boolean isEnemy) {
+        if(isEnemy) {
+            this.path = path;
+            Random rand = new Random();
+            int xOffset = rand.nextInt(30) - 15;
+            int yOffset = rand.nextInt(30) - 15;
+            this.path.offset(xOffset, yOffset);
+            pathMeasure.setPath(this.path, false);
+        } else {
+            this.path = path;
+            pathMeasure.setPath(this.path, false);
+        }
     }
 
     protected Path getPath() {

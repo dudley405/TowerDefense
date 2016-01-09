@@ -31,7 +31,7 @@ public class LevelScreen1 extends LevelScreen {
         for (int i = 0; i < 21; i++) {
 
             BunnySprite sprite = new BunnySprite(game.getGraphics(), Assets.spriteSheet.getBitmap());
-            sprite.setPath(getPath());
+            sprite.setPath(getPath(), true);
             sprites.add(sprite);
         }
         // set the circles where towers can be built

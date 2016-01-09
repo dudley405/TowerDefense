@@ -29,4 +29,15 @@ public class UiUtil {
             return false;
     }
 
+    public static boolean inBounds(Input.TouchEvent event, int x, int y, int radius) {
+        double dx = Math.pow(event.x - x, 2);
+        double dy = Math.pow(event.y - y, 2);
+
+        if ((dx + dy) < Math.pow(radius, 2)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
