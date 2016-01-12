@@ -16,5 +16,6 @@ public class Assets {
     public static Image map_1_1;
 
     public static Image spriteSheet;
+    public static Image projectileSheet;
 
 }

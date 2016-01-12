@@ -16,8 +16,8 @@ import java.util.Random;
  */
 public class Sprite {
 
-    protected static final int BMP_ROWS = 8;
-    protected static final int BMP_COLUMNS = 12;
+    protected int BMP_ROWS = 8;
+    protected int BMP_COLUMNS = 12;
     protected int x = 0;
     protected int y = 0;
     protected int[] mX;
