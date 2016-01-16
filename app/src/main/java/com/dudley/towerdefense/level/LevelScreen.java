@@ -10,11 +10,8 @@ import com.dudley.towerdefense.framework.Game;
 import com.dudley.towerdefense.framework.Graphics;
 import com.dudley.towerdefense.framework.Screen;
 import com.dudley.towerdefense.framework.Input.TouchEvent;
-import com.dudley.towerdefense.framework.util.Coordinates;
 import com.dudley.towerdefense.framework.util.UiUtil;
-import com.dudley.towerdefense.sprite.BunnySprite;
-import com.dudley.towerdefense.sprite.Sprite;
-import com.dudley.towerdefense.sprite.TowerSprite;
+import com.dudley.towerdefense.sprite.tower.IceTowerSprite;
 import com.dudley.towerdefense.sprite.util.TowerLocation;
 import com.dudley.towerdefense.sprite.util.TowerType;
 
@@ -27,7 +24,7 @@ import java.util.List;
 public class LevelScreen extends Screen {
 
     List<TowerLocation> levelTowerLocations = new ArrayList<>();
-    public List<TowerSprite> towerSprites = new ArrayList<TowerSprite>();
+    public List<IceTowerSprite> iceTowerSprites = new ArrayList<IceTowerSprite>();
 
     Path path;
 
@@ -98,7 +95,7 @@ public class LevelScreen extends Screen {
                     if(UiUtil.inBounds(event, location.getCoords().getX(), location.getCoords().getY(), location.getCoords().getRadius())) {
                         if(location.getTower() == null) {
                             // TODO need to give user the option of which type of tower they would like to build
-                            TowerSprite sprite = new TowerSprite(game.getGraphics(), Assets.spriteSheet.getBitmap(), location.getCoords());
+                            IceTowerSprite sprite = new IceTowerSprite(game.getGraphics(), Assets.spriteSheet.getBitmap(), location.getCoords());
                             sprite.setTowerType(TowerType.ICE);
                             location.setTower(sprite);
                         } else {

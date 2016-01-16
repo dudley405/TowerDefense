@@ -7,36 +7,33 @@ import com.dudley.towerdefense.Assets;
 import com.dudley.towerdefense.framework.Game;
 import com.dudley.towerdefense.framework.Graphics;
 import com.dudley.towerdefense.framework.util.Coordinates;
-import com.dudley.towerdefense.sprite.BunnySprite;
-import com.dudley.towerdefense.sprite.Sprite;
-import com.dudley.towerdefense.sprite.TowerSprite;
+import com.dudley.towerdefense.sprite.enemy.BunnyEnemySprite;
+import com.dudley.towerdefense.sprite.enemy.EnemySprite;
 import com.dudley.towerdefense.sprite.util.TowerLocation;
-import com.dudley.towerdefense.sprite.util.TowerType;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Level 1
  */
 public class LevelScreen1 extends LevelScreen {
 
-    public List<BunnySprite> sprites = new ArrayList<BunnySprite>();
+    int i = 0;
+    long gameTime;
+    long lastPolledTime;
+    long lastShotTime;
+
+    public List<EnemySprite> sprites = new ArrayList<EnemySprite>();
 
     public LevelScreen1(Game game) {
         super(game);
-
-        // create all the sprites for this level
-        // Need to make sprites spawn in waves
-        for (int i = 0; i < 21; i++) {
-
-            BunnySprite sprite = new BunnySprite(game.getGraphics(), Assets.spriteSheet.getBitmap());
-            sprite.setPath(getPath(), true);
-            sprites.add(sprite);
-        }
         // set the circles where towers can be built
         setTowerLocations();
+
+        lastPolledTime = System.currentTimeMillis();
+        lastShotTime = System.currentTimeMillis();
+
     }
 
     public void drawReadyUI() {
@@ -49,6 +46,9 @@ public class LevelScreen1 extends LevelScreen {
 
     @Override
     public void drawRunningUI() {
+
+        gameTime = System.currentTimeMillis();
+
         Graphics g = game.getGraphics();
         g.clearScreen(155);
         g.drawImage(Assets.map_1_1, -300, -300);
@@ -60,8 +60,13 @@ public class LevelScreen1 extends LevelScreen {
             int radius = location.getCoords().getRadius();
 
             // Draw towers
-            if(location.getTower() != null) {
+            if (location.getTower() != null) {
                 location.getTower().onDraw();
+                paint.setColor(Color.BLUE);
+                paint.setAlpha(60);
+                Coordinates shootingRadius = location.getTower().getShootingRadius();
+                game.getGraphics().drawCircle(shootingRadius.getX(), shootingRadius.getY(), shootingRadius.getRadius(), paint);
+                location.getTower().shoot(sprites.get(0));
             } else {
                 paint.setColor(Color.WHITE);
                 g.drawCircle(x, y, radius, paint);
@@ -69,8 +74,21 @@ public class LevelScreen1 extends LevelScreen {
 
         }
 
-        for (BunnySprite sprite : sprites) {
-            sprite.onDraw();
+
+        // create all the sprites for this level
+        // Need to make sprites spawn in waves
+        if (i < 21 && (gameTime - lastPolledTime) > 1000) {
+            BunnyEnemySprite sprite = new BunnyEnemySprite(game.getGraphics(), Assets.spriteSheet.getBitmap());
+            sprite.setPath(getPath(), false);
+            sprites.add(sprite);
+            i++;
+            lastPolledTime = gameTime;
+        }
+
+        for (EnemySprite sprite : sprites) {
+            if(sprite != null && !sprite.isFinished()) {
+                sprite.onDraw();
+            }
         }
 
     }

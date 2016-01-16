@@ -1,24 +1,47 @@
-package com.dudley.towerdefense.sprite;
+package com.dudley.towerdefense.sprite.enemy;
 
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 
-import com.dudley.towerdefense.Animation;
 import com.dudley.towerdefense.framework.Graphics;
-
-import java.util.Random;
+import com.dudley.towerdefense.sprite.SpriteMapper;
 
 /**
  * Created by Justin on 1/3/2016.
  */
-public class BunnySprite extends Sprite {
+public class BunnyEnemySprite extends EnemySprite {
 
 
-    public BunnySprite(Graphics graphics, Bitmap bmp) {
+    public BunnyEnemySprite(Graphics graphics, Bitmap bmp) {
         super(graphics, bmp);
 
         setUpAnimations();
 
+        setSpeed(1);
+
+    }
+
+
+    public void onDraw() {
+        long gameTime = System.currentTimeMillis();
+
+        update();
+
+        animationLeft.update(gameTime);
+        animationRight.update(gameTime);
+        animationUp.update(gameTime);
+        animationDown.update(gameTime);
+
+        Rect dst = new Rect(x, y, x + width, y + height);
+        if (isMovingRight) {
+            graphics.drawBitmap(bmp, animationRight.getRect(), dst, paint);
+        } else if (isMovingLeft) {
+            graphics.drawBitmap(bmp, animationLeft.getRect(), dst, paint);
+        } else if (isMovingUp) {
+            graphics.drawBitmap(bmp, animationUp.getRect(), dst, paint);
+        } else if (isMovingDown) {
+            graphics.drawBitmap(bmp, animationDown.getRect(), dst, paint);
+        }
     }
 
     /**
@@ -78,27 +101,5 @@ public class BunnySprite extends Sprite {
         srcX += width;
         src = new Rect(srcX, srcY, srcX + width, srcY + height);
         animationDown.addFrame(src, 200);
-    }
-
-    public void onDraw() {
-        long gameTime = System.currentTimeMillis();
-
-        update();
-
-        animationLeft.update(gameTime);
-        animationRight.update(gameTime);
-        animationUp.update(gameTime);
-        animationDown.update(gameTime);
-
-        Rect dst = new Rect(x, y, x + width, y + height);
-        if (isMovingRight) {
-            graphics.drawBitmap(bmp, animationRight.getRect(), dst, paint);
-        } else if (isMovingLeft) {
-            graphics.drawBitmap(bmp, animationLeft.getRect(), dst, paint);
-        } else if (isMovingUp) {
-            graphics.drawBitmap(bmp, animationUp.getRect(), dst, paint);
-        } else if (isMovingDown) {
-            graphics.drawBitmap(bmp, animationDown.getRect(), dst, paint);
-        }
     }
 }

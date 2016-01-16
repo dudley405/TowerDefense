@@ -1,7 +1,7 @@
 package com.dudley.towerdefense.sprite.util;
 
 import com.dudley.towerdefense.framework.util.Coordinates;
-import com.dudley.towerdefense.sprite.TowerSprite;
+import com.dudley.towerdefense.sprite.tower.IceTowerSprite;
 
 /**
  * Needed to keep track of the tower locations and what type of towers
@@ -10,7 +10,7 @@ import com.dudley.towerdefense.sprite.TowerSprite;
 public class TowerLocation {
 
     private Coordinates coords;
-    private TowerSprite tower;
+    private IceTowerSprite tower;
 
     public TowerLocation(Coordinates coords) {
         this.coords = coords;
@@ -24,11 +24,11 @@ public class TowerLocation {
         this.coords = coords;
     }
 
-    public TowerSprite getTower() {
+    public IceTowerSprite getTower() {
         return tower;
     }
 
-    public void setTower(TowerSprite tower) {
+    public void setTower(IceTowerSprite tower) {
         this.tower = tower;
     }
 }

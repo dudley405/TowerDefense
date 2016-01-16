@@ -1,16 +1,15 @@
-package com.dudley.towerdefense.sprite;
+package com.dudley.towerdefense.sprite.enemy;
 
 import android.graphics.Bitmap;
-import android.graphics.Rect;
 
 import com.dudley.towerdefense.framework.Graphics;
 
 /**
  * Created by Justin on 1/3/2016.
  */
-public class FrogSprite extends Sprite {
+public class FrogEnemySprite extends EnemySprite {
 
-    public FrogSprite(Graphics graphics, Bitmap bmp) {
+    public FrogEnemySprite(Graphics graphics, Bitmap bmp) {
         super(graphics, bmp);
     }
 

@@ -1,4 +1,4 @@
-package com.dudley.towerdefense.sprite;
+package com.dudley.towerdefense.sprite.enemy;
 
 import android.graphics.Bitmap;
 import android.graphics.Paint;
@@ -14,7 +14,7 @@ import java.util.Random;
 /**
  * Created by Justin on 1/3/2016.
  */
-public class Sprite {
+public class EnemySprite {
 
     protected int BMP_ROWS = 8;
     protected int BMP_COLUMNS = 12;
@@ -35,6 +35,8 @@ public class Sprite {
     boolean isMovingDown;
     boolean isMovingUp;
 
+    boolean isFinished = false;
+
     public int i = 0;
 
     Animation animationLeft = new Animation();
@@ -47,7 +49,7 @@ public class Sprite {
 
     Paint paint;
 
-    public Sprite(Graphics graphics, Bitmap bmp) {
+    public EnemySprite(Graphics graphics, Bitmap bmp) {
         this.graphics = graphics;
         this.bmp = bmp;
         this.width = bmp.getWidth() / BMP_COLUMNS;
@@ -69,8 +71,9 @@ public class Sprite {
         } else if (y > lastYPoint) {
             moveDown();
         }
-
     }
+
+    public void onDraw() {};
 
     /*
      * Here we want to distinguish which direction the sprite is moving
@@ -155,20 +158,24 @@ public class Sprite {
         }
 
         final float[] position = new float[2];
-        if (i < numPoints) {
+        if (i < numPoints && !isFinished) {
             final float distance = (i * pathLength) / (numPoints - 1);
             pathMeasure.getPosTan(distance, position, null /* tangent */);
 
-            x = mX[i] = (int) position[0];
-            y = mY[i] = (int) position[1];
+            mX[i] = (int) position[0];
+            this.x = (int) position[0];
+            mY[i] = (int) position[1];
+            this.y = (int) position[1];
 
             if (i > 0) {
                 lastXPoint = mX[i - 1];
                 lastYPoint = mY[i - 1];
             }
-            if (i != (numPoints - 1)) {
-                i++;
-            }
+
+            i++;
+
+        } else {
+            isFinished = true;
         }
     }
 
@@ -186,5 +193,9 @@ public class Sprite {
 
     public int getHeight() {
         return height;
+    }
+
+    public boolean isFinished() {
+        return isFinished;
     }
 }

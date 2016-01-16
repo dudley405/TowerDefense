@@ -6,12 +6,9 @@ import android.graphics.Paint;
 
 import com.dudley.towerdefense.framework.Game;
 import com.dudley.towerdefense.framework.Graphics;
-import com.dudley.towerdefense.framework.Image;
 import com.dudley.towerdefense.framework.Screen;
 import com.dudley.towerdefense.framework.impl.AndroidImage;
 import com.dudley.towerdefense.framework.util.UiUtil;
-import com.dudley.towerdefense.sprite.BunnySprite;
-import com.dudley.towerdefense.sprite.FrogSprite;
 
 /**
  * Created by Justin on 1/2/2016.

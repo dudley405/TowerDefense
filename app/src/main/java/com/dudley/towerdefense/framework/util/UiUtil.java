@@ -71,4 +71,15 @@ public class UiUtil {
         }
     }
 
+    public static boolean inBounds(int srcX, int srcY, int x, int y, int radius) {
+        double dx = Math.pow(srcX - x, 2);
+        double dy = Math.pow(srcY - y, 2);
+
+        if ((dx + dy) < Math.pow(radius, 2)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
