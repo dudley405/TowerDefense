@@ -71,6 +71,15 @@ public class UiUtil {
         }
     }
 
+    /**
+     * Check if specific point lies within a circle
+     * @param srcX
+     * @param srcY
+     * @param x
+     * @param y
+     * @param radius
+     * @return
+     */
     public static boolean inBounds(int srcX, int srcY, int x, int y, int radius) {
         double dx = Math.pow(srcX - x, 2);
         double dy = Math.pow(srcY - y, 2);

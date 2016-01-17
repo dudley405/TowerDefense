@@ -21,6 +21,7 @@ public class IceProjectileSprite extends EnemySprite {
     long aliveTime;
     long lastPolledTime;
     long gameTime;
+    private int damage;
 
     public IceProjectileSprite(Graphics graphics, Bitmap bmp) {
         super(graphics, bmp);
@@ -34,6 +35,8 @@ public class IceProjectileSprite extends EnemySprite {
         setUpAnimations();
 
         setSpeed(10);
+        damage = 100;
+        health = 100;
         aliveTime = 0;
         lastPolledTime = System.currentTimeMillis();
 
@@ -95,4 +98,19 @@ public class IceProjectileSprite extends EnemySprite {
         return this.aliveTime;
     }
 
+    public boolean checkCollision(Rect projectile, Rect enemy) {
+        if(projectile.intersect(enemy)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
 }

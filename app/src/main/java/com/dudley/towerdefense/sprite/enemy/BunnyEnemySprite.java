@@ -18,6 +18,7 @@ public class BunnyEnemySprite extends EnemySprite {
         setUpAnimations();
 
         setSpeed(1);
+        health = 100;
 
     }
 

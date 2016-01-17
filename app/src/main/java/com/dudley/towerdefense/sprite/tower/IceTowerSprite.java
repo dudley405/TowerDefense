@@ -45,33 +45,42 @@ public class IceTowerSprite extends TowerSprite {
     public void onDraw() {
         update();
 
-        for (EnemySprite projectile : projectiles) {
+        for (IceProjectileSprite projectile : projectiles) {
             if ((projectile != null) && (!projectile.isFinished())) {
                 if ((UiUtil.inBounds(projectile.getXCoord(), projectile.getYCoord(), shootingRadius.getX(), shootingRadius.getY(), shootingRadius.getRadius()) || 0 == projectile.getXCoord() && projectile.getYCoord() == 0)) {
                     projectile.onDraw();
                 }
+                EnemySprite enemy = projectile.getTarget();
+                Rect enemyRect = new Rect(enemy.getXCoord(), enemy.getYCoord(), enemy.getXCoord() + (enemy.getWidth() / 2), enemy.getYCoord() + (enemy.getHeight() / 2));
+                Rect projectileRect = new Rect(projectile.getXCoord(), projectile.getYCoord(), projectile.getXCoord() + projectile.getWidth() , projectile.getYCoord() + projectile.getHeight());
+                boolean hit = projectile.checkCollision(projectileRect, enemyRect);
+                if (hit) {
+                    enemy.hit(projectile.getDamage());
+                    projectile.setFinished();
+                }
+            }
+
+        }
+
+            long gameTime = System.currentTimeMillis();
+            animationLevel1Tower.update(gameTime);
+            animationLevel2Tower.update(gameTime);
+
+            // get coordinates based on which tower build location
+            // was selected. Draw tower at that location
+            x = locationCoords.getX() - locationCoords.getRadius();
+            y = locationCoords.getY() - locationCoords.getRadius();
+
+            Rect dst = new Rect(x, y, x + width, y + height);
+
+            // Draw differnt towers based on type selected by user
+            if (towerType.equals(TowerType.FIRE)) {
+                // TODO in here we need to check which level tower it is
+                graphics.drawBitmap(bmp, animationLevel1Tower.getRect(), dst, paint);
+            } else {
+                graphics.drawBitmap(bmp, animationLevel2Tower.getRect(), dst, paint);
             }
         }
-
-        long gameTime = System.currentTimeMillis();
-        animationLevel1Tower.update(gameTime);
-        animationLevel2Tower.update(gameTime);
-
-        // get coordinates based on which tower build location
-        // was selected. Draw tower at that location
-        x = locationCoords.getX() - locationCoords.getRadius();
-        y = locationCoords.getY() - locationCoords.getRadius();
-
-        Rect dst = new Rect(x, y, x + width, y + height);
-
-        // Draw differnt towers based on type selected by user
-        if (towerType.equals(TowerType.FIRE)) {
-            // TODO in here we need to check which level tower it is
-            graphics.drawBitmap(bmp, animationLevel1Tower.getRect(), dst, paint);
-        } else {
-            graphics.drawBitmap(bmp, animationLevel2Tower.getRect(), dst, paint);
-        }
-    }
 
     private void setUpAnimations() {
         int srcX = SpriteMapper.frogRightStartX * width;
@@ -122,6 +131,14 @@ public class IceTowerSprite extends TowerSprite {
             iceProjectileSprite.setTarget(target);
             projectiles.add(iceProjectileSprite);
             lastPolledTime = gameTime;
+        }
+    }
+
+    public void target(List<EnemySprite> enemies) {
+        for (EnemySprite enemy : enemies) {
+            if (!enemy.isFinished() && UiUtil.inBounds(enemy.getXCoord(), enemy.getYCoord(), shootingRadius.getX(), shootingRadius.getY(), shootingRadius.getRadius())) {
+                shoot(enemy);
+            }
         }
     }
 

@@ -29,6 +29,7 @@ public class EnemySprite {
     protected int width;
     protected int height;
     private int speed = 2;
+    public int health;
 
     boolean isMovingRight;
     boolean isMovingLeft;
@@ -158,7 +159,7 @@ public class EnemySprite {
         }
 
         final float[] position = new float[2];
-        if (i < numPoints && !isFinished) {
+        if (i < numPoints && !isFinished && health > 0) {
             final float distance = (i * pathLength) / (numPoints - 1);
             pathMeasure.getPosTan(distance, position, null /* tangent */);
 
@@ -197,5 +198,13 @@ public class EnemySprite {
 
     public boolean isFinished() {
         return isFinished;
+    }
+
+    public void setFinished() {
+        this.isFinished = true;
+    }
+
+    public void hit(int damage) {
+        health -= damage;
     }
 }

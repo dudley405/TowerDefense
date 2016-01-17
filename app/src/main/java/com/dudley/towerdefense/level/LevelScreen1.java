@@ -66,7 +66,7 @@ public class LevelScreen1 extends LevelScreen {
                 paint.setAlpha(60);
                 Coordinates shootingRadius = location.getTower().getShootingRadius();
                 game.getGraphics().drawCircle(shootingRadius.getX(), shootingRadius.getY(), shootingRadius.getRadius(), paint);
-                location.getTower().shoot(sprites.get(0));
+                location.getTower().target(sprites);
             } else {
                 paint.setColor(Color.WHITE);
                 g.drawCircle(x, y, radius, paint);
