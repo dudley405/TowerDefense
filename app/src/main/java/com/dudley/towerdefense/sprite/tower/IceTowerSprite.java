@@ -1,6 +1,7 @@
 package com.dudley.towerdefense.sprite.tower;
 
 import android.graphics.Bitmap;
+import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 
@@ -9,7 +10,7 @@ import com.dudley.towerdefense.Assets;
 import com.dudley.towerdefense.framework.Graphics;
 import com.dudley.towerdefense.framework.util.Coordinates;
 import com.dudley.towerdefense.framework.util.UiUtil;
-import com.dudley.towerdefense.sprite.enemy.EnemySprite;
+import com.dudley.towerdefense.sprite.Sprite;
 import com.dudley.towerdefense.sprite.projectile.IceProjectileSprite;
 import com.dudley.towerdefense.sprite.SpriteMapper;
 import com.dudley.towerdefense.sprite.util.TowerType;
@@ -20,7 +21,7 @@ import java.util.List;
 /**
  * Created by Justin on 1/6/2016.
  */
-public class IceTowerSprite extends TowerSprite {
+public class IceTowerSprite extends Sprite {
 
     List<IceProjectileSprite> projectiles = new ArrayList<IceProjectileSprite>();
     // Default animation is tower doing nothing
@@ -30,6 +31,11 @@ public class IceTowerSprite extends TowerSprite {
     private Coordinates locationCoords;
     private String towerType;
     private Coordinates shootingRadius;
+    protected int shotDelay;
+    protected long gameTime;
+    protected long lastPolledTime;
+
+    Paint paint;
 
     public IceTowerSprite(Graphics graphics, Bitmap bmp, Coordinates coords) {
         super(graphics, bmp);
@@ -38,6 +44,8 @@ public class IceTowerSprite extends TowerSprite {
         lastPolledTime = System.currentTimeMillis();
         shotDelay = 1000;
         shootingRadius = new Coordinates(locationCoords.getX(), locationCoords.getY(), 200);
+
+         paint = new Paint();
 
         setUpAnimations();
     }
@@ -50,13 +58,13 @@ public class IceTowerSprite extends TowerSprite {
                 if ((UiUtil.inBounds(projectile.getXCoord(), projectile.getYCoord(), shootingRadius.getX(), shootingRadius.getY(), shootingRadius.getRadius()) || 0 == projectile.getXCoord() && projectile.getYCoord() == 0)) {
                     projectile.onDraw();
                 }
-                EnemySprite enemy = projectile.getTarget();
+                Sprite enemy = projectile.getTarget();
                 Rect enemyRect = new Rect(enemy.getXCoord(), enemy.getYCoord(), enemy.getXCoord() + (enemy.getWidth() / 2), enemy.getYCoord() + (enemy.getHeight() / 2));
                 Rect projectileRect = new Rect(projectile.getXCoord(), projectile.getYCoord(), projectile.getXCoord() + projectile.getWidth() , projectile.getYCoord() + projectile.getHeight());
                 boolean hit = projectile.checkCollision(projectileRect, enemyRect);
                 if (hit) {
                     enemy.hit(projectile.getDamage());
-                    projectile.setFinished();
+                    projectiles.remove(projectile);
                 }
             }
 
@@ -96,17 +104,6 @@ public class IceTowerSprite extends TowerSprite {
         animationLevel2Tower.addFrame(src, 200);
     }
 
-    public Coordinates getCoords() {
-        return locationCoords;
-    }
-
-    public void setCoords(Coordinates coords) {
-        this.locationCoords = coords;
-    }
-
-    public String getTowerType() {
-        return towerType;
-    }
 
     public void setTowerType(String towerType) {
         this.towerType = towerType;
@@ -116,11 +113,7 @@ public class IceTowerSprite extends TowerSprite {
         return this.shootingRadius;
     }
 
-    public void setShotDelay(int delay) {
-        this.shotDelay = delay;
-    }
-
-    public void shoot(EnemySprite target) {
+    public void shoot(Sprite target) {
         gameTime = System.currentTimeMillis();
         if (gameTime - lastPolledTime > shotDelay) {
             IceProjectileSprite iceProjectileSprite = new IceProjectileSprite(graphics, Assets.projectileSheet.getBitmap());
@@ -134,8 +127,8 @@ public class IceTowerSprite extends TowerSprite {
         }
     }
 
-    public void target(List<EnemySprite> enemies) {
-        for (EnemySprite enemy : enemies) {
+    public void target(List<Sprite> enemies) {
+        for (Sprite enemy : enemies) {
             if (!enemy.isFinished() && UiUtil.inBounds(enemy.getXCoord(), enemy.getYCoord(), shootingRadius.getX(), shootingRadius.getY(), shootingRadius.getRadius())) {
                 shoot(enemy);
             }

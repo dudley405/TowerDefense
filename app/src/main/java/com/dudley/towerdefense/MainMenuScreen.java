@@ -8,8 +8,7 @@ import com.dudley.towerdefense.framework.Graphics;
 import com.dudley.towerdefense.framework.Input.TouchEvent;
 import com.dudley.towerdefense.framework.Screen;
 import com.dudley.towerdefense.framework.util.UiUtil;
-import com.dudley.towerdefense.level.LevelScreen;
-import com.dudley.towerdefense.level.LevelScreen1;
+import com.dudley.towerdefense.level.Level1Screen;
 
 import java.util.List;
 
@@ -50,14 +49,11 @@ public class MainMenuScreen extends Screen {
                     //START GAME
                     Assets.click.play(100);
                     // TODO take user to level selection screen and/or other menus
-                    game.setScreen(new LevelScreen1(game));
+                    game.setScreen(new Level1Screen(game));
                 }
             }
         }
     }
-
-
-
 
     @Override
     public void paint(float deltaTime) {
@@ -71,7 +67,7 @@ public class MainMenuScreen extends Screen {
         int y = game.getGraphics().getHeight() / 2 - (height / 2);
 
         g.drawRect(x,y,width,height,Color.BLUE);
-        g.drawString("Start",(game.getGraphics().getWidth() / 2) + 10 , (game.getGraphics().getHeight() + 10) / 2,paint);
+        g.drawString("Start",(game.getGraphics().getWidth() / 2) + 10 , (game.getGraphics().getHeight() + 35) / 2,paint);
     }
 
     @Override

@@ -7,16 +7,15 @@ import android.graphics.Rect;
 
 import com.dudley.towerdefense.Animation;
 import com.dudley.towerdefense.framework.Graphics;
-import com.dudley.towerdefense.sprite.enemy.EnemySprite;
+import com.dudley.towerdefense.sprite.Sprite;
 
 /**
  * Created by lenovo on 1/11/2016.
  */
-public class IceProjectileSprite extends EnemySprite {
+public class IceProjectileSprite extends Sprite {
 
-    EnemySprite target;
+    Sprite target;
     Animation shootingAnimation = new Animation();
-    Path path;
     Paint paint;
     long aliveTime;
     long lastPolledTime;
@@ -35,7 +34,7 @@ public class IceProjectileSprite extends EnemySprite {
         setUpAnimations();
 
         setSpeed(10);
-        damage = 100;
+        damage = 50;
         health = 100;
         aliveTime = 0;
         lastPolledTime = System.currentTimeMillis();
@@ -55,6 +54,10 @@ public class IceProjectileSprite extends EnemySprite {
 
     }
 
+    public void update() {
+        getPathPoints();
+    }
+
     private void setUpAnimations() {
         int srcX = 0;
         int srcY = 0;
@@ -72,11 +75,11 @@ public class IceProjectileSprite extends EnemySprite {
         shootingAnimation.addFrame(src, 200);
     }
 
-    public void setTarget(EnemySprite enemySprite) {
+    public void setTarget(Sprite enemySprite) {
         this.target = enemySprite;
     }
 
-    public EnemySprite getTarget() {
+    public Sprite getTarget() {
         return this.target;
     }
 
@@ -90,14 +93,6 @@ public class IceProjectileSprite extends EnemySprite {
         return this.y;
     }
 
-    public Path getPath() {
-        return this.path;
-    }
-
-    public long getAliveTime() {
-        return this.aliveTime;
-    }
-
     public boolean checkCollision(Rect projectile, Rect enemy) {
         if(projectile.intersect(enemy)) {
             return true;
@@ -105,6 +100,8 @@ public class IceProjectileSprite extends EnemySprite {
             return false;
         }
     }
+
+
 
     public int getDamage() {
         return damage;

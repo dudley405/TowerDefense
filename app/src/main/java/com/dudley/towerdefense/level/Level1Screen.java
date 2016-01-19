@@ -10,7 +10,10 @@ import com.dudley.towerdefense.framework.Game;
 import com.dudley.towerdefense.framework.Graphics;
 import com.dudley.towerdefense.framework.Screen;
 import com.dudley.towerdefense.framework.Input.TouchEvent;
+import com.dudley.towerdefense.framework.util.Coordinates;
 import com.dudley.towerdefense.framework.util.UiUtil;
+import com.dudley.towerdefense.sprite.enemy.BunnyEnemySprite;
+import com.dudley.towerdefense.sprite.Sprite;
 import com.dudley.towerdefense.sprite.tower.IceTowerSprite;
 import com.dudley.towerdefense.sprite.util.TowerLocation;
 import com.dudley.towerdefense.sprite.util.TowerType;
@@ -21,12 +24,16 @@ import java.util.List;
 /**
  * Created by Justin on 1/2/2016.
  */
-public class LevelScreen extends Screen {
+public class Level1Screen extends Screen {
 
     List<TowerLocation> levelTowerLocations = new ArrayList<>();
-    public List<IceTowerSprite> iceTowerSprites = new ArrayList<IceTowerSprite>();
+    public List<Sprite> sprites = new ArrayList<Sprite>();
 
     Path path;
+    int i = 0;
+    long gameTime;
+    long lastPolledTime;
+    long lastShotTime;
 
     enum GameState {
         Ready, Running, Paused, GameOver
@@ -37,15 +44,19 @@ public class LevelScreen extends Screen {
     // Variable Setup
     // You would create game objects here.
 
-    int livesLeft = 1;
+    int livesLeft = 5;
     Paint paint;
 
-    public LevelScreen(Game game) {
+    public Level1Screen(Game game) {
         super(game);
 
         setPath(buildPath());
 
-        // Initialize game objects here
+        // set the circles where towers can be built
+        setTowerLocations();
+
+        lastPolledTime = System.currentTimeMillis();
+        lastShotTime = System.currentTimeMillis();
 
         // Defining a paint object
         paint = new Paint();
@@ -88,7 +99,6 @@ public class LevelScreen extends Screen {
         for (int i = 0; i < len; i++) {
             TouchEvent event = touchEvents.get(i);
 
-
             // Check to see if a user has click a tower location
             if (event.type == TouchEvent.TOUCH_DOWN) {
                 for(TowerLocation location : levelTowerLocations) {
@@ -105,7 +115,6 @@ public class LevelScreen extends Screen {
                 }
             }
         }
-
 
         // TODO
         if (livesLeft == 0) {
@@ -173,11 +182,66 @@ public class LevelScreen extends Screen {
     }
 
     public void drawReadyUI() {
-        String test = "test";
+        Graphics g = game.getGraphics();
+
+        g.drawARGB(155, 0, 0, 0);
+        g.drawString("Touch to Begin",
+                640, 300, paint);
     }
 
     public void drawRunningUI() {
-        String test = "test";
+
+        gameTime = System.currentTimeMillis();
+
+        Graphics g = game.getGraphics();
+        g.clearScreen(155);
+        g.drawImage(Assets.map_1_1, -300, -300);
+        paint.setColor(Color.WHITE);
+        paint.setAlpha(255);
+        g.drawString("Lives: " + livesLeft, 100, 50, paint);
+
+        // draw all tower locations
+        for (TowerLocation location : levelTowerLocations) {
+            int x = location.getCoords().getX();
+            int y = location.getCoords().getY();
+            int radius = location.getCoords().getRadius();
+
+            // Draw towers
+            if (location.getTower() != null) {
+                location.getTower().onDraw();
+                paint.setColor(Color.BLUE);
+                paint.setAlpha(60);
+                Coordinates shootingRadius = location.getTower().getShootingRadius();
+                game.getGraphics().drawCircle(shootingRadius.getX(), shootingRadius.getY(), shootingRadius.getRadius(), paint);
+                location.getTower().target(sprites);
+            } else {
+                paint.setColor(Color.WHITE);
+                g.drawCircle(x, y, radius, paint);
+            }
+
+        }
+
+        // create all the sprites for this level
+        // Need to make sprites spawn in waves
+        if (i < 5 && (gameTime - lastPolledTime) > 1000) {
+            BunnyEnemySprite sprite = new BunnyEnemySprite(game.getGraphics(), Assets.spriteSheet.getBitmap());
+            sprite.setPath(getPath(), false);
+            sprites.add(sprite);
+            i++;
+            lastPolledTime = gameTime;
+        }
+
+        for (Sprite sprite : sprites) {
+            if(sprite != null && !sprite.isFinished()) {
+                if(isDead(sprite)) {
+                    livesLeft--;
+                    sprite.isFinished();
+                } else {
+                    sprite.onDraw();
+                }
+            }
+        }
+
     }
 
     private void drawPausedUI() {
@@ -189,8 +253,11 @@ public class LevelScreen extends Screen {
 
     private void drawGameOverUI() {
         Graphics g = game.getGraphics();
-        g.drawRect(0, 0, 1281, 801, Color.BLACK);
-        g.drawString("GAME OVER.", 640, 300, paint);
+        paint.setColor(Color.BLACK);
+        paint.setAlpha(255);
+        g.drawRect(0, 0, 1281, 801, Color.WHITE);
+        g.drawString("GAME OVER", 640, 300, paint);
+        g.drawString("Tap to continue...", 640, 500, paint);
 
     }
 
@@ -199,6 +266,32 @@ public class LevelScreen extends Screen {
         if (state == GameState.Running)
             state = GameState.Paused;
 
+    }
+
+    /**
+     * Sets the locations that towers can be built
+     */
+    private void setTowerLocations() {
+        Coordinates coord = new Coordinates(550, 200, 40);
+        TowerLocation location1 = new TowerLocation(coord);
+        Coordinates coord2 = new Coordinates(200, 450, 40);
+        TowerLocation location2 = new TowerLocation(coord2);
+        levelTowerLocations.add(location1);
+        levelTowerLocations.add(location2);
+    }
+
+    public Path buildPath() {
+        Path path = new Path();
+        path.moveTo(-100, 300);
+        path.lineTo(700, 300);
+        path.lineTo(700, -300);
+        return path;
+    }
+
+    public boolean isDead(Sprite sprite) {
+        if(sprite.getYCoord() < 0) {
+            return true;
+        } else return false;
     }
 
     @Override
@@ -222,10 +315,6 @@ public class LevelScreen extends Screen {
 
     protected Path getPath() {
         return this.path;
-    }
-
-    public Path buildPath() {
-       return new Path();
     }
 }
 
