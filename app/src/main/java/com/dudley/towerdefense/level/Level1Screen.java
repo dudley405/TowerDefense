@@ -12,6 +12,8 @@ import com.dudley.towerdefense.framework.Screen;
 import com.dudley.towerdefense.framework.Input.TouchEvent;
 import com.dudley.towerdefense.framework.util.Coordinates;
 import com.dudley.towerdefense.framework.util.UiUtil;
+import com.dudley.towerdefense.sprite.Group;
+import com.dudley.towerdefense.sprite.Wave;
 import com.dudley.towerdefense.sprite.enemy.BunnyEnemySprite;
 import com.dudley.towerdefense.sprite.Sprite;
 import com.dudley.towerdefense.sprite.tower.IceTowerSprite;
@@ -27,7 +29,9 @@ import java.util.List;
 public class Level1Screen extends Screen {
 
     List<TowerLocation> levelTowerLocations = new ArrayList<>();
-    public List<Sprite> sprites = new ArrayList<Sprite>();
+    List<Wave> waves = new ArrayList<Wave>();
+
+    int currentWave = 0;
 
     Path path;
     int i = 0;
@@ -67,6 +71,7 @@ public class Level1Screen extends Screen {
         paint.setStrokeWidth(2);
         paint.setStyle(Paint.Style.FILL_AND_STROKE);
 
+        buildWaves();
 
     }
 
@@ -86,7 +91,7 @@ public class Level1Screen extends Screen {
 
     private void updateReady(List<TouchEvent> touchEvents) {
 
-       // Game staging screen..user must click to start level
+        // Game staging screen..user must click to start level
 
         if (touchEvents.size() > 0)
             state = GameState.Running;
@@ -101,9 +106,9 @@ public class Level1Screen extends Screen {
 
             // Check to see if a user has click a tower location
             if (event.type == TouchEvent.TOUCH_DOWN) {
-                for(TowerLocation location : levelTowerLocations) {
-                    if(UiUtil.inBounds(event, location.getCoords().getX(), location.getCoords().getY(), location.getCoords().getRadius())) {
-                        if(location.getTower() == null) {
+                for (TowerLocation location : levelTowerLocations) {
+                    if (UiUtil.inBounds(event, location.getCoords().getX(), location.getCoords().getY(), location.getCoords().getRadius())) {
+                        if (location.getTower() == null) {
                             // TODO need to give user the option of which type of tower they would like to build
                             IceTowerSprite sprite = new IceTowerSprite(game.getGraphics(), Assets.spriteSheet.getBitmap(), location.getCoords());
                             sprite.setTowerType(TowerType.ICE);
@@ -117,7 +122,8 @@ public class Level1Screen extends Screen {
         }
 
         // TODO
-        if (livesLeft == 0) {
+        if (livesLeft <= 0) {
+            livesLeft = 0;
             state = GameState.GameOver;
         }
 
@@ -199,6 +205,7 @@ public class Level1Screen extends Screen {
         paint.setColor(Color.WHITE);
         paint.setAlpha(255);
         g.drawString("Lives: " + livesLeft, 100, 50, paint);
+        g.drawString("Wave: " + (currentWave + 1), 1180, 75, paint);
 
         // draw all tower locations
         for (TowerLocation location : levelTowerLocations) {
@@ -213,7 +220,14 @@ public class Level1Screen extends Screen {
                 paint.setAlpha(60);
                 Coordinates shootingRadius = location.getTower().getShootingRadius();
                 game.getGraphics().drawCircle(shootingRadius.getX(), shootingRadius.getY(), shootingRadius.getRadius(), paint);
-                location.getTower().target(sprites);
+                if(currentWave < waves.size()) {
+                    for (List<Group> groupList : waves.get(currentWave).getGroups()) {
+                        for (Group group : groupList) {
+                            // continuously poll for targets
+                            location.getTower().target(group.getSprites());
+                        }
+                    }
+                }
             } else {
                 paint.setColor(Color.WHITE);
                 g.drawCircle(x, y, radius, paint);
@@ -221,28 +235,35 @@ public class Level1Screen extends Screen {
 
         }
 
-        // create all the sprites for this level
-        // Need to make sprites spawn in waves
-        if (i < 5 && (gameTime - lastPolledTime) > 1000) {
-            BunnyEnemySprite sprite = new BunnyEnemySprite(game.getGraphics(), Assets.spriteSheet.getBitmap());
-            sprite.setPath(getPath(), false);
-            sprites.add(sprite);
-            i++;
-            lastPolledTime = gameTime;
-        }
 
-        for (Sprite sprite : sprites) {
-            if(sprite != null && !sprite.isFinished()) {
-                if(isDead(sprite)) {
-                    livesLeft--;
-                    sprite.isFinished();
-                } else {
-                    sprite.onDraw();
+        if (currentWave < waves.size() && !waves.get(currentWave).isOver()) {
+            for (List<Group> groupList : waves.get(currentWave).getGroups()) {
+                for (Group group : groupList) {
+                    if (group.isReady()) {
+                        for (Sprite sprite : group.getSprites()) {
+                            // check to see if sprite is ready based on the groups separation time
+                            if (sprite.isReady()) {
+                                if (sprite != null && !sprite.isFinished()) {
+                                    if (isDead(sprite)) {
+                                        livesLeft--;
+                                        sprite.setFinished();
+                                    } else {
+                                        sprite.onDraw();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    group.update();
                 }
             }
+        } else {
+            if(currentWave != waves.size()) {
+                currentWave++;
+            }
         }
-
     }
+
 
     private void drawPausedUI() {
         Graphics g = game.getGraphics();
@@ -289,7 +310,7 @@ public class Level1Screen extends Screen {
     }
 
     public boolean isDead(Sprite sprite) {
-        if(sprite.getYCoord() < 0) {
+        if (sprite.getYCoord() < 0) {
             return true;
         } else return false;
     }
@@ -309,12 +330,100 @@ public class Level1Screen extends Screen {
         pause();
     }
 
-    private void setPath(Path path){
+    private void setPath(Path path) {
         this.path = path;
     }
 
     protected Path getPath() {
         return this.path;
     }
+
+    private void buildWaves() {
+
+        List<Group> wave1groups = new ArrayList<Group>();
+
+        /*******************************************************************************************
+         *******************************************************************************************
+         **********************              Group 1           **************************************
+         *******************************************************************************************/
+
+
+        Group group1 = new Group();
+
+        for (int i = 0; i < 5; i++) {
+            BunnyEnemySprite sprite = new BunnyEnemySprite(game.getGraphics(), Assets.spriteSheet.getBitmap());
+            sprite.setPath(getPath(), false);
+            group1.addSprite(sprite);
+        }
+
+        group1.setDelay(1000);
+        group1.setSeparationTime(3000);
+
+        /*******************************************************************************************
+         *******************************************************************************************
+         **********************              Group 2           **************************************
+         *******************************************************************************************/
+
+
+        Group group2 = new Group();
+
+        for (int i = 0; i < 8; i++) {
+            BunnyEnemySprite sprite = new BunnyEnemySprite(game.getGraphics(), Assets.spriteSheet.getBitmap());
+            sprite.setPath(getPath(), false);
+            group2.addSprite(sprite);
+        }
+
+        group2.setDelay(20000);
+        group2.setSeparationTime(3000);
+
+        /*******************************************************************************************
+         *******************************************************************************************
+         **********************              Group 3           **************************************
+         *******************************************************************************************/
+
+
+        Group group3 = new Group();
+
+        for (int i = 0; i < 22; i++) {
+            BunnyEnemySprite sprite = new BunnyEnemySprite(game.getGraphics(), Assets.spriteSheet.getBitmap());
+            sprite.setPath(getPath(), false);
+            group3.addSprite(sprite);
+        }
+
+        group3.setDelay(35000);
+        group3.setSeparationTime(1000);
+
+        wave1groups.add(group1);
+        wave1groups.add(group2);
+        wave1groups.add(group3);
+
+        Wave wave1 = new Wave();
+        wave1.addGroup(wave1groups);
+
+        waves.add(wave1);
+
+        List<Group> wave2groups = new ArrayList<Group>();
+
+        Group group4 = new Group();
+
+        for (int i = 0; i < 10; i++) {
+            BunnyEnemySprite sprite = new BunnyEnemySprite(game.getGraphics(), Assets.spriteSheet.getBitmap());
+            sprite.setPath(getPath(), false);
+            group4.addSprite(sprite);
+        }
+
+        group4.setDelay(5000);
+        group4.setSeparationTime(3000);
+
+        wave2groups.add(group4);
+
+        Wave wave2 = new Wave();
+        wave2.addGroup(wave2groups);
+
+        waves.add(wave2);
+
+    }
+
+
 }
 

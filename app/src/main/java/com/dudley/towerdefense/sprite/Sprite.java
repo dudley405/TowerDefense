@@ -32,6 +32,7 @@ public class Sprite {
     Path path;
     PathMeasure pathMeasure = new PathMeasure();
     int speed;
+    private boolean isReady = false;
 
     public boolean isFinished = false;
 
@@ -117,6 +118,10 @@ public class Sprite {
         return isFinished;
     }
 
+    public void setFinished() {
+        this.isFinished = true;
+    }
+
     public int getXCoord() {
         return x;
     }
@@ -142,4 +147,11 @@ public class Sprite {
         this.speed = speed;
     }
 
+    public void setReady() {
+        isReady = true;
+    }
+
+    public boolean isReady() {
+        return isReady;
+    }
 }

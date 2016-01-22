@@ -59,7 +59,7 @@ public class IceTowerSprite extends Sprite {
                     projectile.onDraw();
                 }
                 Sprite enemy = projectile.getTarget();
-                Rect enemyRect = new Rect(enemy.getXCoord(), enemy.getYCoord(), enemy.getXCoord() + (enemy.getWidth() / 2), enemy.getYCoord() + (enemy.getHeight() / 2));
+                Rect enemyRect = new Rect(enemy.getXCoord(), enemy.getYCoord(), enemy.getXCoord() + enemy.getWidth(), enemy.getYCoord() + enemy.getHeight());
                 Rect projectileRect = new Rect(projectile.getXCoord(), projectile.getYCoord(), projectile.getXCoord() + projectile.getWidth() , projectile.getYCoord() + projectile.getHeight());
                 boolean hit = projectile.checkCollision(projectileRect, enemyRect);
                 if (hit) {
@@ -129,7 +129,7 @@ public class IceTowerSprite extends Sprite {
 
     public void target(List<Sprite> enemies) {
         for (Sprite enemy : enemies) {
-            if (!enemy.isFinished() && UiUtil.inBounds(enemy.getXCoord(), enemy.getYCoord(), shootingRadius.getX(), shootingRadius.getY(), shootingRadius.getRadius())) {
+            if (!enemy.isFinished() && UiUtil.inBounds(enemy.getXCoord() + (enemy.getWidth() / 2), enemy.getYCoord() + (enemy.getHeight() / 2), shootingRadius.getX(), shootingRadius.getY(), shootingRadius.getRadius())) {
                 shoot(enemy);
             }
         }
